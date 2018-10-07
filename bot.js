@@ -33,6 +33,12 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
+    if (message.content === '!') {
+        message.reply('**Welcome To __NEX__ CLAN :tada: :champagne_glass: **');
+      }
+});
+
+client.on('message', message => {
     if (message.content === '.') {
         message.reply('**آطلق نقطة**');
       }
@@ -80,6 +86,50 @@ client.on('message', message => {
       message.author.sendEmbed(Embed11)
     }
 }); 
+
+
+////////////////////////////
+
+
+const moment = require('moment');
+             client.on('message', message => {
+           if (message.content.startsWith(prefix + "id")) {
+     var args = message.content.split(" ").slice(1);
+     let user = message.mentions.users.first();
+     var men = message.mentions.users.first();
+        var heg;
+        if(men) {
+            heg = men
+        } else {
+            heg = message.author
+        }
+      var mentionned = message.mentions.members.first();
+         var h;
+        if(mentionned) {
+            h = mentionned
+        } else {
+            h = message.member
+        }
+               moment.locale('ar-TN');
+      var id = new  Discord.RichEmbed()
+    .setColor("RANDOM")
+    .addField(': انضمامك للسيرفر قبل', `${moment(h.joinedAt).format('YYYY/M/D HH:mm:ss')} \n \`${moment(h.joinedAt).fromNow()}\``, true)
+    .addField(': دخولك لديسكورد قبل', `${moment(heg.createdTimestamp).format('YYYY/M/D HH:mm:ss')} **\n** \`${moment(heg.createdTimestamp).fromNow()}\`` ,true)
+    .setThumbnail(heg.avatarURL);
+    message.channel.send(id)
+}       });
+
+
+
+/////////////////////////////////////////////////
+
+client.on('voiceStateUpdate', (old, now) => {
+  const channel = client.channels.get('498442195813007361');
+  const currentSize = channel.guild.members.filter(m => m.voiceChannel).size;
+  const size = channel.name.match(/\[\s(\d+)\s\]/);
+  if (!size) return channel.setName(`NEX Voice: ${currentSize}`);
+  if (currentSize !== size) channel.setName(`NEX Voice: ${currentSize}`);
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1048,43 +1098,31 @@ channel.guild.owner.send(`<@!${channelremover.id}>
   });
 
 
+const adminprefix = "!";
+const devs = ['337457211875917834'];
 client.on('message', message => {
-var prefix = "!vip";
- 
-  if (!message.content.startsWith(prefix)) return;
-  var args = message.content.split(' ').slice(1);
-  var argresult = args.join(' ');
-  if (message.author.id == '395462979115679755' ) return;
- 
-if (message.content.startsWith(prefix + 'playing')) {
+  var argresult = message.content.split(` `).slice(1).join(' ');
+    if (!devs.includes(message.author.id)) return;
+
+if (message.content.startsWith(adminprefix + 'Playing')) {
   client.user.setGame(argresult);
-    message.channel.sendMessage(`**${argresult}** : تم تغيير الحالة`)
+    message.channel.sendMessage(`**${argresult} تم تغيير بلاينق البوت إلى **`)
 } else
- 
-if (message.content.startsWith(prefix + 'streaming')) {
-  client.user.setGame(argresult, "https://www.twitch.tv/sytra_ayman");
-    message.channel.sendMessage(`**${argresult}** :تم تغيير الحالة الى ستريمنج`)
+  if (message.content.startsWith(adminprefix + 'Name')) {
+client.user.setUsername(argresult).then
+    message.channel.sendMessage(`**${argresult}** : تم تغيير أسم البوت إلى`)
+return message.reply("**لا يمكنك تغيير الاسم يجب عليك الانتظآر لمدة ساعتين . **");
 } else
- 
-if (message.content.startsWith(prefix + 'watching')) {
-client.user.setActivity(argresult, {type:'WATCHING'});
-    message.channel.sendMessage(`**:white_check_mark:  : ${argresult}**`)
-} else 
-if (message.content.startsWith(prefix + 'listg')) {
-client.user.setActivity(argresult, {type:'LISTENING'});
-    message.channel.sendMessage(`**:white_check_mark:  : ${argresult}**`)
-} else 
-
-if (message.content.startsWith(prefix + 'name')) {
-  client.user.setUsername(argresult).then
-      message.channel.sendMessage(`**${argresult}** : تم تغير الأسم`)
-  return message.reply("**لا تستطيع تغير الأسم الا بعد ساعتين**");
-} else
-
-if (message.content.startsWith(prefix + 'avt')) {
-  client.user.setAvatar(argresult);
-    message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
+  if (message.content.startsWith(adminprefix + 'Avatar')) {
+client.user.setAvatar(argresult);
+  message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
+      } else
+if (message.content.startsWith(adminprefix + 'Streaming')) {
+  client.user.setGame(argresult, "https://www.twitch.tv/idk");
+    message.channel.sendMessage(`**تم تغيير تويتش البوت إلى  ${argresult}**`)
 }
+
 });
+
 
 client.login(process.env.BOT_TOKEN);
